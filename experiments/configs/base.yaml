@@ -1,0 +1,41 @@
+# Base config — inherited by all model-specific configs.
+# Override any of these in rnn.yaml, cnn_rnn.yaml, transformer.yaml.
+
+# Paths
+data_dir: ../data                           # relative to project root
+user_config: ../emg2qwerty/config/user/single_user.yaml  # DO NOT CHANGE
+
+# Training
+seed: 42
+num_epochs: 40
+batch_size: 8                               # increase if GPU memory allows
+num_workers: 4                              # DataLoader workers
+
+# Optimizer
+optimizer: adam
+lr: 1.0e-3
+weight_decay: 0.0
+
+# Scheduler
+scheduler: reduce_on_plateau               # or cosine_annealing
+scheduler_patience: 5                      # for reduce_on_plateau
+scheduler_min_lr: 1.0e-5
+
+# CTC
+num_classes: 29                             # check emg2qwerty for exact count
+ctc_blank_index: 0
+
+# Gradient clipping
+grad_clip_norm: 1.0
+
+# Logging
+log_wandb: true
+wandb_project: emg2qwerty-c147
+
+# Ablation flags (override in sweep scripts)
+num_channels: 32                           # 4, 8, 16, 32
+train_fraction: 1.0                        # 0.25, 0.5, 0.75, 1.0
+downsample_factor: 1                       # 1, 2, 4, 8
+
+# Model (override in model-specific configs)
+model_type: tds                            # tds | rnn | cnn_rnn | transformer

@@ -1,0 +1,28 @@
+# Transformer / Conformer config
+# Run: python experiments/train.py --config experiments/configs/transformer.yaml
+
+defaults:
+  - base
+
+model_type: transformer
+
+# CNN front-end (REQUIRED — see transformer_model.py warning on sequence length)
+frontend_channels: 64
+frontend_kernel_size: 7
+frontend_stride: 4             # 4x temporal downsampling before attention
+                               # Without this, T=4000+ tokens will OOM
+
+# Transformer
+d_model: 256
+nhead: 8
+num_layers: 4
+dim_feedforward: 1024          # typically 4 * d_model
+dropout: 0.1
+pos_encoding: sinusoidal       # sinusoidal | learned
+
+# Use conformer instead? (recommended)
+use_conformer: false           # set true to use torchaudio Conformer blocks
+conformer_depthwise_conv_kernel_size: 31
+
+# Lower LR is often better for transformers
+lr: 5.0e-4

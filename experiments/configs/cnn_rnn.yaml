@@ -1,0 +1,26 @@
+# CNN + RNN hybrid config
+# Run: python experiments/train.py --config experiments/configs/cnn_rnn.yaml
+
+defaults:
+  - base
+
+model_type: cnn_rnn
+
+# CNN front-end
+conv_channels: [64, 128]       # output channels for each conv layer
+conv_kernel_size: 7
+conv_stride: 2                 # temporal downsampling factor per conv layer
+                               # 2 layers with stride=2 → 4x total downsampling
+num_conv_layers: 2
+conv_dropout: 0.1
+
+# RNN back-end (same as rnn.yaml)
+cell_type: lstm
+hidden_dim: 256
+num_rnn_layers: 2
+rnn_dropout: 0.2
+bidirectional: true
+
+# IMPORTANT: if conv_stride > 1, input_lengths must be divided by total_stride
+# in the training loop. Set this so train.py knows the reduction factor.
+# total_stride = conv_stride ^ num_conv_layers (if all layers have same stride)

@@ -1,0 +1,20 @@
+# RNN model config — inherits base.yaml defaults
+# Run: python experiments/train.py --config experiments/configs/rnn.yaml
+
+defaults:
+  - base
+
+model_type: rnn
+
+# RNN-specific hyperparameters
+cell_type: lstm                # lstm | gru
+hidden_dim: 256
+num_layers: 3
+dropout: 0.2
+bidirectional: true
+input_proj_dim: 64             # project B*C=32 → this before RNN, set null to skip
+
+# Try these variants (run separately):
+# cell_type: gru, hidden_dim: 256   → compare LSTM vs GRU
+# hidden_dim: 512                   → larger model
+# num_layers: 2                     → shallower
